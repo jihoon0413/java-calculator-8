@@ -1,11 +1,12 @@
 package calculator.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Calculator {
 
-    private final List<Character> delimiters = List.of(',', ':');
+    private final List<Character> delimiters = new ArrayList<>(List.of(',', ':'));
 
     public int calc(String str) {
         // 기본 구분자를 기준으로 숫자 분리
@@ -14,6 +15,11 @@ public class Calculator {
 
         if (Objects.equals(str, "")) {
             return 0;
+        }
+
+        if (str.startsWith("//")) {
+            delimiters.add(getCustomDelimiter(str));
+            str = str.substring(5);
         }
 
         for (int i = 0; i < str.length(); i++) {
@@ -33,6 +39,18 @@ public class Calculator {
         ans += Integer.parseInt(String.valueOf(num));
 
         return ans;
+    }
+
+    private char getCustomDelimiter(String str) {
+        if (str.charAt(3) == '\\' && str.charAt(4) == 'n') {
+            char delimiter = str.charAt(2);
+            if (delimiters.contains(delimiter)) {
+                throw new IllegalArgumentException("기본 구분자는 커스텀으로 등록할 수 없습니다.");
+            }
+            return delimiter;
+        } else {
+            throw new IllegalArgumentException("커스텀 구분자 입력 형식을 확인하세요.");
+        }
     }
 
     private boolean checkNum(char c) {
