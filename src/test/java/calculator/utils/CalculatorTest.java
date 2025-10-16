@@ -43,4 +43,30 @@ class CalculatorTest {
         assertEquals(0, ans);
     }
 
+    @Test
+    public void givenCustomDelimiterWhenCorrectThenAnswer() {
+        String str = "//^\\n1^31,6";
+
+        int ans = calculator.calc(str);
+
+        assertEquals(38, ans);
+    }
+
+    @Test
+    public void givenCustomDelimiterWhenIncludeBaseDelimiterThenException() {
+        String str1 = "//,\\n1,2,3";
+        String str2 = "//:\\n1:2,3";
+
+        assertThrows(IllegalArgumentException.class, () -> calculator.calc(str1));
+        assertThrows(IllegalArgumentException.class, () -> calculator.calc(str2));
+    }
+
+    @Test
+    public void givenCustomDelimiterWhenWrongWayThenException() {
+        String str1 = "/#\\n1,2,3";
+        String str2 = "//#\\f1,2,3";
+
+        assertThrows(IllegalArgumentException.class, () -> calculator.calc(str1));
+        assertThrows(IllegalArgumentException.class, () -> calculator.calc(str2));
+    }
 }
