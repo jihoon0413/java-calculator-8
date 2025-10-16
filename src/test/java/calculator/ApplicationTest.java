@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
-import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 class ApplicationTest extends NsTest {
@@ -27,10 +26,6 @@ class ApplicationTest extends NsTest {
 
     @Override
     public void runMain() {
-        try {
-            Application.main(new String[]{});
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Application.main(new String[]{});
     }
 }
